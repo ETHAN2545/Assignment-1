@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import * as React from 'react';
 
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
@@ -17,24 +17,61 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
 export default function CustomerPage() {
+
+  
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid size={8}>
-          <Item>size=8</Item>
-        </Grid>
-        <Grid size={4}>
-          <Item>size=4</Item>
-        </Grid>
-        <Grid size={4}>
-          <Item>size=4</Item>
-        </Grid>
-        <Grid size={8}>
-          <Item>size=8</Item>
-        </Grid>
-      </Grid>
-    </Box>
-  );
+    <Box sx={{ minHeight: '100vh', bgcolor: '#f5f5f5'}}>
+    <AppBar position="static" color="default" elevation={1}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 2}}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
+          <Box
+          component="img"
+          src="/images/mcdonalds.png"
+          sx={{
+            width: 40, height: 40}}
+          />
+          <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'red'}}>
+            McDONALDS
+          </Typography>
+        </Box>
+
+        <Box sx={{ flexGrow: 1, maxWidth: 400}}>
+          <TextField
+          size="small"
+          fullWidth
+          placeholder="Search products..."
+          />
+        </Box>
+
+        <Avatar />
+      </Toolbar>
+    </AppBar>
+
+    <Container maxWidth="lg" sx={{ mt: 3, mb: 4}}>
+      <Paper
+        elevation={2}
+        sx={{
+          mb: 3,
+          p: 2,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+        >
+          <Typography variant="h6">Current Weather</Typography>
+          <Box sx={{ display: 'flex', gap: 2}}></Box>
+        </Paper>
+
+        <CardActions>
+          <Button
+            fullWidth
+            onClick={() => putInCart(item.pname)} variant="outlined"> ADD TO CART </Button>
+        </CardActions>
+    </Container>
+  </Box>
+)
+
+}
 
   //
 
@@ -44,46 +81,6 @@ export default function CustomerPage() {
 
 function putInCart(pname){
   console.log("putting in cart: " + pname)
-
   fetch("http://localhost:3000/api/putInCart?pname="+pname);
-      <Button onClick={() => putInCart(item.pname)} variant="outlined"> Add to cart </Button>
-
 }
 
-return (
-  <Box sx={{ minHeight: '100vh', bgcolor: '#f5f5f5'}}>
-    <AppBar position="static" color="default" elevation={1}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 2}}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1}}>
-          <Box
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: 2,
-            border: '2px solid #000',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          >
-            <Typography variant="caption">Img</Typography>
-          </Box>
-          <Typography variant="h6" sx={{ fontWeight: 'bold'}}>
-            McDONALDS
-          </Typography>
-        </Box>
-
-        <Box sx={{ flexGrow: 1, maxWidth: 400}}>
-          <TextField
-          size="small"
-          fullWidth
-          placeholder="Search..."
-          />
-        </Box>
-
-      </Toolbar>
-    </AppBar>
-  </Box>
-)
-
-}

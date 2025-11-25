@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
 
@@ -19,22 +18,15 @@ export default function RegisterPage() {
 
   const data = new FormData(event.currentTarget);
 
-
-
    let email = data.get('email')
    let password = data.get('password')
    let confirmPassword = data.get('confirmPassword')
-   let phonenumber = data.get('phoneNumber')
+   let phoneNumber = data.get('phoneNumber')
    
    console.log("Sent email:" + email)
-   console.log("Sent pass:" + pass)
-   console.log("Sent address:" + address)
-   console.log("Sent phonenumber:" + phonenumber)
-   console.log("Sent secondpassword:" + secondpassword)
-   console.log("Sent secondemail:" + secondemail)
-
-
-
+   console.log("Sent password:" + password)
+   console.log("Sent confirmPassword:" + confirmPassword)
+   console.log("Sent phoneNumber:" + phoneNumber)
 
    runDBCallAsync(`http://localhost:3000/api/newregister?email=${email}&password=${password}&confirmPassword=${confirmPassword}&phonenumber=${phonenumber}`)
 
@@ -47,33 +39,17 @@ export default function RegisterPage() {
 
 async function runDBCallAsync(url) {
 
-
-
     const res = await fetch(url);
-
     const data = await res.json();
-
-
- 
 
     if(data.data== "valid"){
 
       console.log("login is valid!")
-
-
-     
-
     } else {
-
-
       console.log("not valid  ")
 
     }
-
   }
-
-
-
 
   return (
 

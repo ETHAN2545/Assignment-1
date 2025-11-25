@@ -1,52 +1,21 @@
+import { MongoClient } from "mongodb";
+import { NextResponse } from "next/server";
+
+const dbName = 'app';
+
 export async function GET(req, res) {
-
-
-  // Make a note we are on
-
-  // the api. This goes to the console.
-
   console.log("in the api page")
 
-
-
-  // get the values
-
-  // that were sent across to us.
-
   const { searchParams } = new URL(req.url)
-
   const email = searchParams.get('email')
-
-  const pass = searchParams.get('pass')
+  const password = searchParams.get('password')
+  const confirmPassword = searchParams.get('confirmPassword')
+  const phoneNumber = searchParams.get('phoneNumber')
   
-  const address = searchParams.get('address')
-  
-  const phonenumber = searchParams.get('phonenumber')
-  
-  const secondpassword = searchParams.get('secondpassword')
-
-  const secondemail = searchParams.get('secondemail')
-  
-
   console.log(email);
-
-  console.log(pass);
-    
-  console.log(address);
-    
-  console.log(phonenumber);
-    
-  console.log(secondpassword);
-    
-  console.log(secondemail);
-
-
-
-
-  // database call goes here
-
-
-  // at the end of the process we need to send something back.
+  console.log(password);
+  console.log(confirmPassword);
+  console.log(phoneNumber);
 
   return Response.json({ "data":"valid" })
 

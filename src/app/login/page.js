@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -9,22 +9,25 @@ import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import NextLink from 'next/link';
 
 export default function LoginPage() {
 
   const handleSubmit = (event) => {
-  console.log("handling submit");
+  console.log("handling login submit");
   event.preventDefault();
 
   const data = new FormData(event.currentTarget);
 
    let email = data.get('email')
-   let pass = data.get('pass')
+   let password = data.get('password')
 
    console.log("Sent email:" + email)
-   console.log("Sent pass:" + pass)
+   console.log("Sent password:" + password)
 
-   runDBCallAsync(`http://localhost:3000/api/login?email=${email}&pass=${pass}`)
+   runDBCallAsync(`http://localhost:3000/api/login?email=${email}&password=${password}`)
 
  }; // end handle submit
 
@@ -87,8 +90,15 @@ async function runDBCallAsync(url) {
     >
       Sign In
     </Button>
-</Box>
 
+    <Grid container justifyContent="flex-end">
+      <Grid item>
+        <Link component={NextLink} href="/register" variant="body2">
+         Don&apos;t have an account? Register
+        </Link>
+      </Grid>
+    </Grid>
+</Box>
 </Box>
        </Container>
 
