@@ -2,34 +2,19 @@
 
 import * as React from 'react';
 
-import Avatar from '@mui/material/Avatar';
-
-import Button from '@mui/material/Button';
-
-
-import TextField from '@mui/material/TextField';
-
-import FormControlLabel from '@mui/material/FormControlLabel';
-
-import Checkbox from '@mui/material/Checkbox';
-
-import Link from '@mui/material/Link';
-
 import Container from '@mui/material/Container';
-
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 
 
-
-export default function Home() {
-
-
+export default function RegisterPage() {
   const handleSubmit = (event) => {
-
-                
-
   console.log("handling submit");
-
   event.preventDefault();
 
   const data = new FormData(event.currentTarget);
@@ -37,35 +22,21 @@ export default function Home() {
 
 
    let email = data.get('email')
-
-   let pass = data.get('pass')
+   let password = data.get('password')
+   let confirmPassword = data.get('confirmPassword')
+   let phonenumber = data.get('phoneNumber')
    
-   let address = data.get('address')
-   
-   let phonenumber = data.get('phonenumber')
-   
-   let secondpassword = data.get('secondpassword')
-   
-   let secondemail = data.get('secondemail')
-   
-
-
    console.log("Sent email:" + email)
-
    console.log("Sent pass:" + pass)
-      
    console.log("Sent address:" + address)
-
    console.log("Sent phonenumber:" + phonenumber)
-
    console.log("Sent secondpassword:" + secondpassword)
-
    console.log("Sent secondemail:" + secondemail)
 
 
 
 
-   runDBCallAsync(`http://localhost:3000/api/newregister?email=${email}&pass=${pass}&address=${address}&phonenumber=${phonenumber}&secondpassword=${secondpassword}&secondemail=${secondemail}`)
+   runDBCallAsync(`http://localhost:3000/api/newregister?email=${email}&password=${password}&confirmPassword=${confirmPassword}&phonenumber=${phonenumber}`)
 
 
 
@@ -107,163 +78,77 @@ async function runDBCallAsync(url) {
   return (
 
     <Container maxWidth="sm">
+    <Box sx={{ height: '100vh', display: 'flex', allignItems: 'center' }} >
+    <Box 
+      component="form"
+      onSubmit={handleSubmit}
+      noValidate
+      sx={{ mt: 1, width: '100%' }}>
 
-    <Box sx={{ height: '100vh' }} >
-
-
-    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Typography variant='h5' sx={{ mb: 2, textAlign: 'center'}}>
+          Register
+        </Typography>
 
     <TextField
-
       margin="normal"
-
       required
-
       fullWidth
-
       id="email"
-
       label="Email Address"
-
       name="email"
-
       autoComplete="email"
-
       autoFocus
-
     />
 
     <TextField
-
       margin="normal"
-
       required
-
       fullWidth
-
-      name="pass"
-
-      label="Pass"
-
-      type="pass"
-
-      id="pass"
-
-      autoComplete="current-password"
-
+      name="password"
+      label="Password"
+      type="password"
+      id="password"
+      autoComplete="new-password"
     />
       
       <TextField
-
       margin="normal"
-
       required
-
       fullWidth
-
-      name="address"
-
-      label="Address"
-
-      type="address"
-
-      id="address"
-
-      autoComplete="current-address"
-
+      name="confirmPassword"
+      label="Confirm Password"
+      type="password"
+      id="confirmPassword"
+      autoComplete="new-password"
     />
       
       <TextField
-
       margin="normal"
-
       required
-
       fullWidth
-
       name="phonenumber"
-
       label="Phone Number"
-
-      type="phone"
-
+      type="tel"
       id="phonenumber"
-
-      autoComplete="Phone-number"
-
+      autoComplete="tel"
     />
       
-      <TextField
-
-      margin="normal"
-
-      required
-
-      fullWidth
-
-      name="secondemail"
-
-      label="Second Email"
-
-      type="email"
-
-      id="secondemail"
-
-      autoComplete="secon-email"
-
-    />
-      
-      <TextField
-
-      margin="normal"
-
-      required
-
-      fullWidth
-
-      name="secondpassword"
-
-      label="Second Password"
-
-      type="secondpass"
-
-      id="secondpassword"
-
-      autoComplete="second-password"
-
-    />
-      
-
     <FormControlLabel
-
       control={<Checkbox value="remember" color="primary" />}
-
       label="Remember me"
-
     />
 
     <Button
-
       type="submit"
-
       fullWidth
-
       variant="contained"
-
       sx={{ mt: 3, mb: 2 }}
-
     >
-
-      Sign In
-
+      Register
     </Button>
-
 </Box>
-
 </Box>
-
-       </Container>
+</Container>
 
   ); // end return
-
 }
