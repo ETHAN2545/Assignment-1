@@ -16,8 +16,8 @@ import NextLink from 'next/link';
 export default function LoginPage() {
 
   const handleSubmit = (event) => {
-  console.log("handling login submit");
-  event.preventDefault();
+  console.log("handling login submit")
+  event.preventDefault()
 
   const data = new FormData(event.currentTarget);
 
@@ -33,14 +33,21 @@ export default function LoginPage() {
 
 
 async function runDBCallAsync(url) {
+    const res = await fetch(url)
+    const data = await res.json()
 
-    const res = await fetch(url);
-    const data = await res.json();
+    console.log("Login API response:", data)
 
     if(data.data== "valid"){
       console.log("login is valid!")
+
+      if (data.account_type == "manager") {
+        window.location.href = "/manager"
+      } else {
+        window.location.href = "/customer"
+      }
     } else {
-      console.log("not valid  ")
+      console.log("not valid")
     }
   }
 
@@ -70,10 +77,10 @@ async function runDBCallAsync(url) {
       margin="normal"
       required
       fullWidth
-      name="pass"
+      name="password"
       label="Password"
       type="password"
-      id="pass"
+      id="password"
       autoComplete="current-password"
     />
 
@@ -88,7 +95,7 @@ async function runDBCallAsync(url) {
       variant="contained"
       sx={{ mt: 3, mb: 2 }}
     >
-      Sign In
+      LOG IN
     </Button>
 
     <Grid container justifyContent="flex-end">

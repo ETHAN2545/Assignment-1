@@ -1,28 +1,62 @@
-import { NextResponse } from "next/server";
-import { MongoClient } from "mongodb";
+import { MongoClient } from "mongodb"
+import bcrypt from "bcryptjs"
 
-const dbName = 'app';
+const url = "mongodb://root:example@localhost:27017/"
+const dbName = "app"
 
 export async function GET(req, res) {
-  console.log("in the api page")
 
-  const { searchParams } = new URL(req.url)
-  const email = searchParams.get('email')
-  const password = searchParams.get('password')
+  console.log("in the login api page")
 
-  const client = new MongoClient(url)
-  const db = client.db(dbName);
-  const collection = db.collection("login");
+  try {
+    const { searchParams } = new URL(req.url)
+    const email = searchParams.get("email")
+    const password = searchParams.get("password")
 
+    console.log("email:", email)
+    console.log("password:", password)
 
-  console.log(email);
-  console.log(password);
+    if (!email || !password) {
+      return Response.json(
+        { data: "invalid", error: "Email or password missing" },
+        { status: 400 }
+      );
+    }
 
-  // database call goes here
-  // at the end of the process we need to send something back.
+    const client = new MongoClient(url)
+    await client.connect()
+    console.log("Connected successfully")
 
-  return Response.json({ "data":"valid" })
+    const db = client.db(dbName);
+    const collection = db.collection("login")
 
+    const user = await collection.findOne({ email: email })
+
+    if (!user) {
+      await client.close()
+      console.log("user not found")
+      return Response.json({ data: "invalid" })
+    }
+
+    const match = await bcrypt.compare(password, user.password)
+
+    await client.close()
+
+    if (!match) {
+      console.log("wrong password")
+      return Response.json({ data: "invalid" })
+    }
+
+    console.log("login valid")
+
+    return Response.json({
+      data: "valid",
+      account_type: user.account_type || "customer"
+    })
+
+  } catch (err) {
+    console.error("Login API error:", err)
+    return Response.json({ data: "invalid" }, { status: 500 })
+  }
 }
-
 

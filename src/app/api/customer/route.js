@@ -1,41 +1,29 @@
-export async function GET(req, res) {
+import { MongoClient } from "mongodb"
+import bcrypt from "bcryptjs"
 
+const url = "mongodb://root:example@localhost:27017/"
+const dbName = "app"
 
-  // Make a note we are on
+export async function GET(req) {
+  console.log("in the customer api page")
 
-  // the api. This goes to the console.
+  try {
+    const client = new MongoClient(url)
+    await client.connect()
+    console.log("Connected successfully to customer")
+    const db = client.db(dbName)
+    const collection = db.collection("products")
 
-  console.log("in the api page")
+    const findResult = await collection.find({}).toArray()
+    console.log("Found products...", findResult)
 
+    await client.close()
 
-
-  // get the values
-
-  // that were sent across to us.
-
-  const { searchParams } = new URL(req.url)
-
-  const email = searchParams.get('email')
-
-  const pass = searchParams.get('pass')
-
-
-  console.log(email);
-
-  console.log(pass);
-
-
-
- 
-
-
-  // database call goes here
-
-
-  // at the end of the process we need to send something back.
-
-  return Response.json({ "data":"valid" })
-
+    return Response.json(findResult)
+  } catch (err) {
+    console.error("Products API error:", err)
+    return Response.json({ error: "Server error"}, {status: 500})
+  }
 }
 
 

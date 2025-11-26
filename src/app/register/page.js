@@ -9,11 +9,15 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import NextLink from 'next/link';
+import Link from '@mui/material/Link';
 
 
 export default function RegisterPage() {
+
   const handleSubmit = (event) => {
-  console.log("handling submit");
+  console.log("handling register submit");
   event.preventDefault();
 
   const data = new FormData(event.currentTarget);
@@ -28,33 +32,38 @@ export default function RegisterPage() {
    console.log("Sent confirmPassword:" + confirmPassword)
    console.log("Sent phoneNumber:" + phoneNumber)
 
-   runDBCallAsync(`http://localhost:3000/api/newregister?email=${email}&password=${password}&confirmPassword=${confirmPassword}&phonenumber=${phonenumber}`)
+   if (!email || !password || !confirmPassword || !phoneNumber) {
+    alert("Please fill in all fields!");
+    return;
+   }
 
+   if (password != confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+   }
 
-
-
+   runDBCallAsync(`http://localhost:3000/api/register?email=${email}&password=${password}&confirmPassword=${confirmPassword}&phoneNumber=${phoneNumber}`)
 
  }; // end handle submit
 
-
 async function runDBCallAsync(url) {
-
     const res = await fetch(url);
     const data = await res.json();
 
-    if(data.data== "valid"){
+    console.log("Register API response:", data);
 
-      console.log("login is valid!")
+    if(data.data== "valid") {
+      console.log("register is valid!")
+      alert("Registration successful! You can now login.")
+      window.location.href = "/login"
     } else {
-      console.log("not valid  ")
-
+      console.log("not valid")
     }
   }
 
   return (
-
     <Container maxWidth="sm">
-    <Box sx={{ height: '100vh', display: 'flex', allignItems: 'center' }} >
+    <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center' }} >
     <Box 
       component="form"
       onSubmit={handleSubmit}
@@ -102,10 +111,10 @@ async function runDBCallAsync(url) {
       margin="normal"
       required
       fullWidth
-      name="phonenumber"
+      name="phoneNumber"
       label="Phone Number"
       type="tel"
-      id="phonenumber"
+      id="phoneNumber"
       autoComplete="tel"
     />
       
@@ -122,6 +131,14 @@ async function runDBCallAsync(url) {
     >
       Register
     </Button>
+
+    <Grid container justifyContent="flex-end">
+      <Grid item>
+        <Link component={NextLink} href="/login" variant="body2">
+            Already have an account? Login
+        </Link>
+      </Grid>
+    </Grid>
 </Box>
 </Box>
 </Container>
