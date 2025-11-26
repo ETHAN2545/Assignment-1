@@ -1,5 +1,4 @@
 import { MongoClient } from "mongodb"
-import bcrypt from "bcryptjs"
 
 const url = "mongodb://root:example@localhost:27017/"
 const dbName = "app"
