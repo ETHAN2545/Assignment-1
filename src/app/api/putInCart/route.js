@@ -1,3 +1,5 @@
+const url = "mongodb+srv://root:pass@cluster0.ksxhnxp.mongodb.net/?appName=Cluster0";
+
 export async function GET(req) {
 
   console.log("in the putInCart api page")

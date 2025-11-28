@@ -42,7 +42,7 @@ export default function RegisterPage() {
     return;
    }
 
-   runDBCallAsync(`http://localhost:3000/api/register?email=${email}&password=${password}&confirmPassword=${confirmPassword}&phoneNumber=${phoneNumber}`)
+   runDBCallAsync(`/api/register?email=${email}&password=${password}&confirmPassword=${confirmPassword}&phoneNumber=${phoneNumber}`)
 
  }; // end handle submit
 

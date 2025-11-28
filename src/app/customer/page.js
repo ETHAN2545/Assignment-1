@@ -21,14 +21,14 @@ import Stack from '@mui/material/Stack';
 
 function putInCart(pname) {
   console.log("putting in cart: " + pname)
-  fetch("http://localhost:3000/api/putInCart?pname="+pname)
+  fetch(`/api/putInCart?pname=${encodeURIComponent(pname)}`)
 }
 
 export default function CustomerPage() {
   const [products, setProducts] = useState(null)
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/products')
+    fetch('/api/products')
     .then((res) => res.json())
     .then((data) => setProducts(data))
     }, [])
@@ -102,7 +102,7 @@ export default function CustomerPage() {
                     sx={{ fontWeight: "bold"}}
                     >
                       ADD TO CART
-                    </Button>|
+                    </Button>
                 </CardActions>
               </Card>
               </Grid>

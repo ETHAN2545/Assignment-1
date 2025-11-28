@@ -27,7 +27,7 @@ export default function LoginPage() {
    console.log("Sent email:" + email)
    console.log("Sent password:" + password)
 
-   runDBCallAsync(`http://localhost:3000/api/login?email=${email}&password=${password}`)
+   runDBCallAsync(`/api/login?email=${email}&password=${password}`)
 
  }; // end handle submit
 
