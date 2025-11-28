@@ -1,4 +1,3 @@
-import { dark } from '@mui/material/styles/createPalette';
 import { MongoClient, ObjectId } from 'mongodb';
 
 const url = "mongodb+srv://root:pass@cluster0.ksxhnxp.mongodb.net/?appName=Cluster0";
