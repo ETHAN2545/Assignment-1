@@ -14,7 +14,7 @@ export async function GET() {
     const collection = db.collection("Products")
 
     const products = await collection.find({}).toArray()
-    console.log("Found products...", products)
+    console.log("Found Products...", products)
 
     await client.close()
 
