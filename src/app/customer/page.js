@@ -14,10 +14,13 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import ShoppingCartIcon from '@mui/material/ShoppingCartIcon';
+import NextLink from 'next/link';
 
 function putInCart(pname) {
   console.log("putting in cart: " + pname)
@@ -47,11 +50,21 @@ export default function CustomerPage() {
           </Typography>
         </Stack>
 
+        <Stack direction="row" spacing={2} alignItems="center">
+          <IconButton
+            component={NextLink}
+            href="/cart"
+            size="large"
+            aria-label="view cart"
+            >
+              <ShoppingCartIcon />
+            </IconButton>
+
         <Avatar
         alt="Profile"
         sx={{ width: 45, height: 45, cursor: "pointer"}}
         />
-
+        </Stack>
         </Toolbar>
         </AppBar>
 

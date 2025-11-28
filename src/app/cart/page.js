@@ -28,7 +28,7 @@ export default function CartPage() {
   const[items, setItems] = useState(null)
 
   function loadCart() {
-    fetch("http://localhost:3000/api/cart")
+    fetch('/api/cart')
       .then((res) => res.json())
       .then((data) => setItems(data))
       .catch((err) => console.error("Cart error:", err))
@@ -106,7 +106,7 @@ export default function CartPage() {
                   <TableCell align="right">
                     <Button
                       variant="outlined"
-                      color="red"
+                      color="error"
                       >
                         Remove
                       </Button>
