@@ -1,7 +1,6 @@
 import { MongoClient } from "mongodb"
 import bcrypt from "bcrypt";
 
-//const url = "mongodb://root:example@localhost:27017/"
 const url = "mongodb+srv://root:pass@cluster0.ksxhnxp.mongodb.net/?appName=Cluster0";
 
 const dbName = "app"
