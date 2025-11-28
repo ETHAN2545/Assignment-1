@@ -1,41 +1,15 @@
-export async function GET(req, res) {
+import { MongoClient } from "mongodb";
 
+const url = "mongodb://root:example@localhost:27017/"
+const dbName = "app"
 
-  // Make a note we are on
+export async function GET() {
+  console.log("in the cart api page")
 
-  // the api. This goes to the console.
-
-  console.log("in the api page")
-
-
-
-  // get the values
-
-  // that were sent across to us.
-
-  const { searchParams } = new URL(req.url)
-
-  const email = searchParams.get('email')
-
-  const pass = searchParams.get('pass')
-
-
-  console.log(email);
-
-  console.log(pass);
-
-
-
- 
-
-
-  // database call goes here
-
-
-  // at the end of the process we need to send something back.
-
-  return Response.json({ "data":"valid" })
+  
 
 }
 
 
+
+ 

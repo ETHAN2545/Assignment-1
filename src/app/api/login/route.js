@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb"
-import bcrypt from "bcryptjs"
+import bcrypt from "bcrypt";
 
 const url = "mongodb://root:example@localhost:27017/"
 const dbName = "app"
@@ -38,11 +38,12 @@ export async function GET(req, res) {
       return Response.json({ data: "invalid" })
     }
 
-    const match = await bcrypt.compare(password, user.password)
+    const hashResult = bcrypt.compareSync(password, user.password)
+    console.log("Hash Comparison Result:" , hashResult)
 
     await client.close()
 
-    if (!match) {
+    if (!hashResult) {
       console.log("wrong password")
       return Response.json({ data: "invalid" })
     }

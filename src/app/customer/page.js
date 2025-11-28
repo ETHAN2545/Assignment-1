@@ -102,7 +102,7 @@ export default function CustomerPage() {
                     sx={{ fontWeight: "bold"}}
                     >
                       ADD TO CART
-                    </Button>
+                    </Button>|
                 </CardActions>
               </Card>
               </Grid>

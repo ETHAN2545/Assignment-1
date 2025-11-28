@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb"
-import bcrypt from "bcryptjs"
+import bcrypt from "bcrypt";
 
 const url = "mongodb://root:example@localhost:27017/"
 const dbName = "app"
@@ -53,7 +53,8 @@ export async function GET(req, res) {
       )
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const saltRounds = 10;
+    const hashedPassword = bcrypt.hashSync(password, saltRounds)
 
     await collection.insertOne({
       email: email,

@@ -1,170 +1,155 @@
 'use client';
 
-import * as React from 'react';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 import Avatar from '@mui/material/Avatar';
-
+import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
-
-
 import TextField from '@mui/material/TextField';
-
-import FormControlLabel from '@mui/material/FormControlLabel';
-
-import Checkbox from '@mui/material/Checkbox';
-
 import Link from '@mui/material/Link';
-
 import Container from '@mui/material/Container';
-
 import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import NextLink from "next/link"
 
+export default function CartPage() {
+  const[items, setItems] = useState(null)
 
-export default function Home() {
-
-
-  const handleSubmit = (event) => {
-
-                
-
-  console.log("handling submit");
-
-  event.preventDefault();
-
-  const data = new FormData(event.currentTarget);
-
-
-
-   let email = data.get('email')
-
-   let pass = data.get('pass')
-
-
-   console.log("Sent email:" + email)
-
-   console.log("Sent pass:" + pass)
-
-
-
-   runDBCallAsync(`http://localhost:3000/api/login?email=${email}&pass=${pass}`)
-
-
-
-
-
- }; // end handle submit
-
-
-async function runDBCallAsync(url) {
-
-
-
-    const res = await fetch(url);
-
-    const data = await res.json();
-
-
- 
-
-    if(data.data== "valid"){
-
-      console.log("login is valid!")
-
-
-     
-
-    } else {
-
-
-      console.log("not valid  ")
-
-    }
-
+  function loadCart() {
+    fetch("http://localhost:3000/api/cart")
+      .then((res) => res.json())
+      .then((data) => setItems(data))
+      .catch((err) => console.error("Cart error:", err))
   }
 
+  useEffect(() => {
+    loadCart()
+  }, [])
 
-
+  if (!items) return <p>Loading...</p>
 
   return (
+    <Box sx={{ minHeight: "100vh", bgcolor: "#f5f5f5"}}>
+      <AppBar position="static" color="default" elevation={1}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", px: 3}}>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Image
+              src="/images/mcdonalds.png"
+              width={45}
+              height={45}
+              alt="McDonalds logo"
+              />
+              <Typography variant="h5" sx={{ color: "red", fontWeight: "bold"}}>
+                McDONALDS
+              </Typography>
+          </Stack>
 
-    <Container maxWidth="sm">
+          <Avatar
+            alt="Profile"
+            sx={{ width: 45,height: 45}}
+            />
+        </Toolbar>
+      </AppBar>
 
-    <Box sx={{ height: '100vh' }} >
+      <Container maxWidth="md" sx={{ mt: 4, mb: 4}}>
+        <Typography variant="h5" sx={{ mb: 2}}>
+          Cart
+        </Typography>
 
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Image</TableCell>
+                <TableCell>Product</TableCell>
+                <TableCell align="right">Price (€)</TableCell>
+                <TableCell align="right">Remove</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map((item) => (
+                <TableRow key={item._id}>
+                  <TableCell>
+                    {item.image && (
+                      <Box sx={{ width: 60, height: 60, position: "relative"}}>
+                        <Image
+                          src={item.image}
+                          alt={item.pname}
+                          fill
+                          style={{ objectFit: "contain"}}
+                          />
+                      </Box>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <Typography>{item.pname}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.description}
+                    </Typography>
+                  </TableCell>
 
-    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                  <TableCell align="right">
+                    €{Number(item.price).toFixed(2)}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Button
+                      variant="outlined"
+                      color="red"
+                      >
+                        Remove
+                      </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
 
-    <TextField
+              {items.length == 0 && (
+                <TableRow>
+                  <TableCell colSpan={4} align="center">
+                    Your cart is empty.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      margin="normal"
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ mt: 3}}
+          >
 
-      required
+            <Grid item>
+              <Typography variant="h6">
+                Total: €{total.toFixed(2)}
+              </Typography>
+            </Grid>
 
-      fullWidth
-
-      id="email"
-
-      label="Email Address"
-
-      name="email"
-
-      autoComplete="email"
-
-      autoFocus
-
-    />
-
-    <TextField
-
-      margin="normal"
-
-      required
-
-      fullWidth
-
-      name="pass"
-
-      label="Pass"
-
-      type="pass"
-
-      id="pass"
-
-      autoComplete="current-password"
-
-    />
-
-    <FormControlLabel
-
-      control={<Checkbox value="remember" color="primary" />}
-
-      label="Remember me"
-
-    />
-
-    <Button
-
-      type="submit"
-
-      fullWidth
-
-      variant="contained"
-
-      sx={{ mt: 3, mb: 2 }}
-
-    >
-
-      Sign In
-
-    </Button>
-
-</Box>
-
-</Box>
-
-       </Container>
-
-  ); // end return
-
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                component={NextLink}
+                href="/checkout"
+                >
+                  Checkout
+                </Button>
+            </Grid>
+          </Grid>
+      </Container>
+    </Box>
+  )
 }
