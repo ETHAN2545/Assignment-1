@@ -1,4 +1,4 @@
-const url = "mongodb+srv://root:pass@cluster0.ksxhnxp.mongodb.net/?appName=Cluster0";
+import { MongoClient } from "mongodb";
 
 export async function GET(req) {
 
@@ -7,33 +7,31 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url)
   const pname = searchParams.get('pname')
 
-  console.log(pname);
+  console.log("Product added:", pname);
 
+  const url = "mongodb+srv://root:pass@cluster0.ksxhnxp.mongodb.net/?appName=Cluster0";
+  const dbName = 'app';
 
- // =================================================
-
-  const { MongoClient } = require('mongodb');
-
-  const url = 'mongodb://root:example@localhost:27017/';
+  try{
   const client = new MongoClient(url);
-
-  const dbName = 'app'; // database name
-
   await client.connect();
   console.log('Connected successfully to server');
 
   const db = client.db(dbName);
-  const collection = db.collection('shopping_cart'); // collection name
+  const collection = db.collection("shopping_cart"); 
 
-  var myobj = { pname: pname, username: "sample@test.com"};
-  const insertResult = await collection.insertOne(myobj);
+  const item = {
+    pname: pname,
+    username: "sample@test.com",
+  }
 
+  await collection.insertOne(item)
 
+  await client.close()
 
- //==========================================================
-
-  // at the end of the process we need to send something back.
-
-  return Response.json({ "data":"" + "inserted" + ""})
-
+  return Response.json({ "data":"" + "inserted" })
+} catch (err) {
+  console.error("putInCart error:", err)
+  return Response.json({ data: "error"}, { status: 500})
+  }
 }
