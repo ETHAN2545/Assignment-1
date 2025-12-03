@@ -1,43 +1,49 @@
+import { MongoClient } from "mongodb";
+
 const url = "mongodb+srv://root:pass@cluster0.ksxhnxp.mongodb.net/?appName=Cluster0";
+const dbName = 'app'
 
-export async function GET(req, res) {
+export async function GET() {
+  console.log('in the checkout api page')
 
+  const username = 'sample@test.com'
 
-  // Make a note we are on
+  try {
+    const client = new MongoClient(url)
+    await client.connect()
+    console.log('Connected successfully to checkout')
 
-  // the api. This goes to the console.
+    const db = client.db(dbName)
+    const cartCol = db.collection('shopping_cart')
+    const ordersCol = db.collection('Orders')
 
-  console.log("in the api page")
+    const cartItems = await cartCol.find({ username }).toArray()
+    console.log('Cart items for checkout:', cartItems)
 
+    if (!cartItems.length) {
+      await client.close()
+      console.log('Cart empty!')
+      return Response.json({ data: 'empty'})
+    }
 
+    const total = cartItems.reduce((sum, item) => sum + Number(item.price || 0), 0)
 
-  // get the values
+    await ordersCol.insertOne({
+      username,
+      items: cartItems,
+      total,
+      order_time: new Date()
+    })
 
-  // that were sent across to us.
+    await cartCol.deleteMany({ username })
 
-  const { searchParams } = new URL(req.url)
+    await client.close()
 
-  const email = searchParams.get('email')
+    console.log('Order placed! Confirmation email sent.')
 
-  const pass = searchParams.get('pass')
-
-
-  console.log(email);
-
-  console.log(pass);
-
-
-
- 
-
-
-  // database call goes here
-
-
-  // at the end of the process we need to send something back.
-
-  return Response.json({ "data":"valid" })
-
+    return Response.json({ data: 'ok' })
+  } catch (err) {
+    console.error('Checkout API error:', err)
+    return Response.json({ data: 'error'}, {status: 500})
+  }
 }
-
-

@@ -55,12 +55,9 @@ export default function CartPage() {
       <AppBar position="static" color="default" elevation={1}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", px: 3}}>
           <Stack direction="row" spacing={1} alignItems="center">
-            <Image
-              src="/images/mcdonalds.png"
-              width={45}
-              height={45}
-              alt="McDonalds logo"
-              />
+           <NextLink href="/customer">
+          <Image src="/images/mcdonalds.png" width={45} height={45} alt="McDonalds logo" style={{ cursor: "pointer"}} />
+          </NextLink>
               <Typography variant="h5" sx={{ color: "red", fontWeight: "bold"}}>
                 McDONALDS
               </Typography>
