@@ -1,43 +1,29 @@
+import { MongoClient } from "mongodb";
+
 const url = "mongodb+srv://root:pass@cluster0.ksxhnxp.mongodb.net/?appName=Cluster0";
+const dbName = 'app';
 
-export async function GET(req, res) {
+export async function GET() {
+  console.log('in the manager api page')
 
+  try {
+    const client = new MongoClient(url)
+    await client.connect()
+    console.log('Connected successfully to manager')
 
-  // Make a note we are on
+    const db = client.db(dbName)
+    const ordersCol = db.collection('Orders')
 
-  // the api. This goes to the console.
+    const orders = await ordersCol
+      .find({})
+      .sort({ order_time: -1 })
+      .toArray()
 
-  console.log("in the api page")
+      await client.close()
 
-
-
-  // get the values
-
-  // that were sent across to us.
-
-  const { searchParams } = new URL(req.url)
-
-  const email = searchParams.get('email')
-
-  const pass = searchParams.get('pass')
-
-
-  console.log(email);
-
-  console.log(pass);
-
-
-
- 
-
-
-  // database call goes here
-
-
-  // at the end of the process we need to send something back.
-
-  return Response.json({ "data":"valid" })
-
+      return Response.json(orders)
+  } catch (err) {
+    console.error('Orders API error:', err)
+    return Response.json({ data: 'error '}, { status: 500 })
+  }
 }
-
-
