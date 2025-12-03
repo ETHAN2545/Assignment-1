@@ -27,6 +27,8 @@ export async function GET(req) {
     return Response.json({ data: 'invalid', error: 'Product not found' }, { status: 404 })
   }
 
+  const cartCol = db.collection("shopping_cart")
+
   const item = {
     pname: product.pname,
     price: product.price,
@@ -40,6 +42,7 @@ export async function GET(req) {
 
   await client.close()
 
+  console.log("Item added into cart")
   return Response.json({ data: 'inserted' })
 } catch (err) {
   console.error("putInCart error:", err)

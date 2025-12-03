@@ -26,6 +26,34 @@ export async function GET() {
   }
 }
 
+export async function DELETE(req) {
+  console.log('in the cart DELETE api')
+
+  const { searchParams } = new URL(req.url)
+  const id = searchParams.get('id')
+
+  if (!id) {
+    return Response.json({ data: 'invalid', error: 'Missing id'}, { status: 400})
+  }
+
+  try {
+    const client = new MongoClient(url)
+    await client.connect()
+
+    const db = client.db(dbName)
+    const collection = db.collection('shopping_cart')
+
+    await collection.deleteOne({ _id: new ObjectId(id)})
+
+    await client.close()
+
+    return Response.json({ data: 'removed'})
+  } catch (err) {
+    console.error('Cart DELETE error:', err)
+    return Response.json({ data: 'error' }, { status: 500 })
+  }
+}
+
 
 
  

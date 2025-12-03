@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Avatar from '@mui/material/Avatar';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -38,7 +37,18 @@ export default function CartPage() {
     loadCart()
   }, [])
 
+  async function removeItem(id) {
+    try {
+      await fetch(`/api/cart?id=${id}`, { method: `DELETE`})
+      loadCart()
+    } catch (err) {
+      console.error('Remove error:', err)
+    }
+  }
+
   if (!items) return <p>Loading...</p>
+
+  const total = items.reduce((sum, item) => sum + Number(item.price || 0), 0)
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "#f5f5f5"}}>
@@ -107,6 +117,7 @@ export default function CartPage() {
                     <Button
                       variant="outlined"
                       color="error"
+                      onClick={() => removeItem(item._id)}
                       >
                         Remove
                       </Button>
