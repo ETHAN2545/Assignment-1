@@ -6,7 +6,6 @@ const dbName = 'app';
 export async function GET() {
   console.log('in the manager api page')
 
-  try {
     const client = new MongoClient(url)
     await client.connect()
     console.log('Connected successfully to manager')
@@ -22,8 +21,4 @@ export async function GET() {
       await client.close()
 
       return Response.json(orders)
-  } catch (err) {
-    console.error('Orders API error:', err)
-    return Response.json({ data: 'error '}, { status: 500 })
-  }
 }

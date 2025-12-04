@@ -8,7 +8,6 @@ export async function GET() {
 
   const username = 'sample@test.com'
 
-  try {
     const client = new MongoClient(url)
     await client.connect()
     console.log('Connected successfully to checkout')
@@ -41,9 +40,5 @@ export async function GET() {
 
     console.log('Order placed! Confirmation email sent.')
 
-    return Response.json({ data: 'ok' })
-  } catch (err) {
-    console.error('Checkout API error:', err)
-    return Response.json({ data: 'error'}, {status: 500})
+   return Response.json({ data: "ok" })
   }
-}

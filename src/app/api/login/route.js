@@ -8,7 +8,6 @@ export async function GET(req, res) {
 
   console.log("in the login api page")
 
-  try {
     const { searchParams } = new URL(req.url)
     const email = searchParams.get("email")
     const password = searchParams.get("password")
@@ -54,10 +53,5 @@ export async function GET(req, res) {
       data: "valid",
       account_type: user.account_type || "customer"
     })
-
-  } catch (err) {
-    console.error("Login API error:", err)
-    return Response.json({ data: "invalid" }, { status: 500 })
-  }
 }
 

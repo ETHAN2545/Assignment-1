@@ -2,14 +2,11 @@ import { MongoClient } from "mongodb"
 import bcrypt from "bcrypt";
 
 const url = "mongodb+srv://root:pass@cluster0.ksxhnxp.mongodb.net/?appName=Cluster0";
-
 const dbName = "app"
 
 export async function GET(req, res) {
-
   console.log("in the register api page")
 
-  try {
     const { searchParams } = new URL(req.url)
     const email = searchParams.get("email")
     const password = searchParams.get("password")
@@ -41,10 +38,12 @@ export async function GET(req, res) {
     const client = new MongoClient(url)
     await client.connect()
     console.log("Connected successfully to register")
+
     const db = client.db(dbName)
     const collection = db.collection("login")
 
     const existing = await collection.findOne({ email: email })
+
     if (existing) {
       await client.close()
       console.log("register invalid - user already exists")
@@ -69,13 +68,6 @@ export async function GET(req, res) {
     console.log("register valid - user inserted")
 
     return Response.json({ data: "valid" })
-  } catch (err) {
-    console.error("Register API error:", err)
-    return Response.json(
-      { data: "invalid", error: "Server error" },
-      { status: 500 }
-    )
-  }
 }
 
 

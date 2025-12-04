@@ -6,7 +6,6 @@ const dbName = "app"
 export async function GET() {
   console.log("in the cart api page")
 
-  try {
     const client = new MongoClient(url)
     await client.connect()
 
@@ -18,10 +17,6 @@ export async function GET() {
       await client.close()
 
       return Response.json(items)
-  } catch (err) {
-    console.error("Cart error:", err)
-    return Response.json({ data: 'error'}, { status: 500 })
-  }
 }
 
 export async function DELETE(req) {
@@ -34,7 +29,6 @@ export async function DELETE(req) {
     return Response.json({ data: 'invalid', error: 'Missing id'}, { status: 400})
   }
 
-  try {
     const client = new MongoClient(url)
     await client.connect()
 
@@ -46,10 +40,6 @@ export async function DELETE(req) {
     await client.close()
 
     return Response.json({ data: 'removed'})
-  } catch (err) {
-    console.error('Cart DELETE error:', err)
-    return Response.json({ data: 'error' }, { status: 500 })
-  }
 }
 
 

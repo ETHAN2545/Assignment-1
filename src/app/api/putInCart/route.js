@@ -11,7 +11,6 @@ export async function GET(req) {
 
   console.log("Product added:", pname);
 
-  try{
   const client = new MongoClient(url);
   await client.connect();
   console.log('Connected successfully to server');
@@ -44,8 +43,4 @@ export async function GET(req) {
 
   console.log("Item added into cart")
   return Response.json({ data: 'inserted' })
-} catch (err) {
-  console.error("putInCart error:", err)
-  return Response.json({ data: "error"}, { status: 500})
-  }
 }

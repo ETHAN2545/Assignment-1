@@ -6,10 +6,10 @@ const dbName = "app"
 export async function GET() {
   console.log("in the customer api page")
 
-  try {
     const client = new MongoClient(url)
     await client.connect()
     console.log("Connected successfully to customer")
+
     const db = client.db(dbName)
     const collection = db.collection("Products")
 
@@ -19,10 +19,6 @@ export async function GET() {
     await client.close()
 
     return Response.json(products)
-  } catch (err) {
-    console.error("Products API error:", err)
-    return Response.json({ error: "Server error"}, {status: 500})
-  }
 }
 
 
