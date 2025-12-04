@@ -13,9 +13,7 @@ export async function GET() {
     const db = client.db(dbName)
     const collection = db.collection('shopping_cart')
 
-    const items = await collection
-      .find({ username: 'sample@test.com'})
-      .toArray()
+    const items = await collection.find({ username: 'sample@test.com'}).toArray()
 
       await client.close()
 

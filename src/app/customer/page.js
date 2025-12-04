@@ -28,11 +28,23 @@ function putInCart(pname) {
 
 export default function CustomerPage() {
   const [products, setProducts] = useState(null)
+  const [weather, setWeather] = useState(null)
 
   useEffect(() => {
     fetch('/api/products')
     .then((res) => res.json())
     .then((data) => setProducts(data))
+    }, [])
+
+    useEffect(() => {
+      fetch("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m")
+        .then((res) => res.json())
+        .then((data) => {
+          setWeather({
+            temperature: data.current.temperature_2m,
+            wind: data.current.wind_speed_10m
+          })
+        })
     }, [])
 
     if (!products) return <p>Loading...</p>
@@ -70,6 +82,27 @@ export default function CustomerPage() {
         </AppBar>
 
           <Container maxWidth="lg" sx={{ mt: 4}}>
+
+              {weather && (
+                <Box
+                  sx={{
+                    p: 2,
+                    mb: 3,
+                    bgcolor: "white",
+                    borderRadius: 2,
+                    boxShadow: 1,
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center", 
+                    alignItems: "center"
+                  }}
+                  >
+                    <Typography variant="body1">
+                      Weather: <strong>{weather.temperature}°C</strong> Wind {weather.wind} km/h
+                    </Typography>
+                  </Box>
+              )}
+
             <Grid
               container
               spacing={4}
