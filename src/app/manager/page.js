@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -50,7 +49,6 @@ export default function ManagerPage() {
                 width: 40,
                 height: 40,
                 borderRadius: 2,
-                border: '2px solid #000',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -66,14 +64,6 @@ export default function ManagerPage() {
               <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'red'}}>
                 McDONALDS
               </Typography>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, maxWidth: 400}}>
-            <TextField
-              size="small"
-              fullWidth
-              placeholder="Search orders..."
-              />
           </Box>
 
           <Avatar />
@@ -108,6 +98,15 @@ export default function ManagerPage() {
                   href="/customer"
                   >
                     Return to Home Page
+                  </Button>
+
+                   <Button
+                  variant="outlined"
+                  fullWidth
+                  component={NextLink}
+                  href="/lineChart"
+                  >
+                    Manager Graph
                   </Button>
 
                 <Box sx={{ mt: 3}}>
